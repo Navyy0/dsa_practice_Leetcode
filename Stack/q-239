@@ -1,0 +1,42 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n - k + 1]; // Result array
+        int z = 0;
+
+        int[] res = new int[n]; // Next greater index array
+        Stack<Integer> st = new Stack<>();
+
+        // Process the last element
+        st.push(n - 1);
+        res[n - 1] = n; // No greater element for the last index
+
+        for (int i = n - 2; i >= 0; i--) {
+            while (!st.isEmpty() && nums[st.peek()] <= nums[i]) {
+                st.pop();
+            }
+
+            if (!st.isEmpty()) {
+                res[i] = st.peek();
+            } else {
+                res[i] = n; // No greater element
+            }
+
+            st.push(i);
+        }
+
+        // Sliding window logic
+        int j = 0; // Pointer to track the max element in the window
+        for (int i = 0; i <= n - k; i++) {
+            if (j < i) {
+                j = i; // Move `j` to the start of the current window
+            }
+            while (res[j] < i + k) { // Ensure `j` is within the window
+                j = res[j];
+            }
+            ans[z++] = nums[j]; // Add the maximum element in the current window
+        }
+
+        return ans;
+    }
+}
