@@ -1,0 +1,43 @@
+class Solution {
+     public void reverseArray(int arr[]) {
+          int left = 0, right = arr.length - 1;
+
+        while (left < right) {
+            
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            left++;
+
+            right--;
+        } }
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length ;
+        int left= 0;
+        int right = n-1;
+        int ans[] = new int[n];
+        int i = 0 ;
+       while(left<= right){
+      if(Math.abs(nums[left])> Math.abs(nums[right])){
+        int square = nums[left] ;
+         ans[i] = square*square ;
+         left ++ ; 
+         i++;
+      } else{
+        int square = nums[right] ;
+         ans[i] = square*square ;
+         right -- ; 
+         i++;
+      }
+
+       }
+
+       reverseArray(ans);
+       return ans;
+
+       
+            
+        
+    }
+}
