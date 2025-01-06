@@ -1,0 +1,28 @@
+class Solution {
+    public int singleNumber(int[] nums) {
+        HashMap<Integer, Integer> st = new HashMap<>();
+    for (int num : nums) {
+        st.put(num, st.getOrDefault(num, 0) + 1);
+    }
+    for (int key : st.keySet()) {
+        if (st.get(key) == 1) {
+            return key;
+        }
+    }
+    return -1; 
+    }
+}
+
+
+
+# optimized approach
+class Solution {
+    public int singleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int ans=0; //since XOR with 0 returns same number 
+        for(int i=0; i<nums.length; i++){
+            ans ^= nums[i];  // ans = (ans) XOR (array element at i) 
+        }
+        return ans;    
+    }
+}
