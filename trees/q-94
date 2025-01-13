@@ -1,3 +1,36 @@
+# inorder traversal (ek baar ke baad dubara aaega to print krdo )
+
+public List<Integer> inorderTraversal(TreeNode root) {
+
+       Set<TreeNode> seen = new HashSet<>();
+        Stack<TreeNode> st = new Stack<>();
+        List<Integer> ans = new ArrayList<>();
+
+        if (root == null) return ans;
+
+        st.push(root);
+
+        while (!st.isEmpty()) {
+            TreeNode temp = st.pop();
+
+            if (!seen.contains(temp)) {
+                if (temp != null && temp.right != null) st.push(temp.right);
+                if (temp != null) st.push(temp);
+                if (temp != null && temp.left != null) st.push(temp.left);
+                seen.add(temp);
+            } else {
+                ans.add(temp.val);
+                seen.remove(temp);
+            }
+        }
+        return ans;
+    }
+
+
+
+
+# another approach
+
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
 
