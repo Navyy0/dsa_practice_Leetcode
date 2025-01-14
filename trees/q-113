@@ -1,0 +1,28 @@
+class Solution {
+    public void ps(TreeNode root, int target, List<List<Integer>> paths, List<Integer> path) {
+        if (root == null) {
+            return;
+        }
+        target -= root.val;
+        path.add(root.val);
+        
+        // If it's a leaf node and the target is met, add the current path
+        if (root.left == null && root.right == null && target == 0) {
+            paths.add(new ArrayList<>(path)); // Make a copy of the path
+        }
+        
+        // Recurse for the left and right subtrees
+        ps(root.left, target, paths, path);
+        ps(root.right, target, paths, path);
+
+        // Backtrack: Remove the last node after exploring both children
+        path.remove(path.size() - 1);
+    }
+    
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> paths = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        ps(root, targetSum, paths, path);
+        return paths;
+    }
+}
