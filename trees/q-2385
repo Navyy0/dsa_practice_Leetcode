@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+     public int find_ans(Map<Integer,List<Integer>> map,int start){
+      Queue<Integer> res=new LinkedList<>();
+      res.add(start);
+      Set<Integer> set=new HashSet<>();
+      int ans=0;
+        while(!res.isEmpty()){
+            int size=res.size();
+            while(size-->0){
+                int val=res.poll();
+                if(map.get(val)!=null){
+               for(Integer ele:map.get(val)){
+                    if(!set.contains(ele)){
+                        res.add(ele);
+                        set.add(val);
+                    }
+                }
+            }
+        }
+            ans++;
+        }
+          return ans-1;
+     }
+    public int amountOfTime(TreeNode root, int start) {
+         Map<Integer,List<Integer>> map=new TreeMap<>();
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            int size=q.size();
+            while(size-->0){
+                TreeNode ref=q.poll();
+                int val=ref.val;
+                if(ref.left!=null){
+                    q.add(ref.left);
+                  map.putIfAbsent(val,new ArrayList<>());
+                  map.putIfAbsent(ref.left.val,new ArrayList<>());
+                  map.get(ref.left.val).add(val);
+                  map.get(val).add(ref.left.val);
+                }
+                if(ref.right!=null){
+                    q.add(ref.right);
+                   map.putIfAbsent(val,new ArrayList<>());
+                    map.putIfAbsent(ref.right.val,new ArrayList<>());
+                   map.get(val).add(ref.right.val);
+                   map.get(ref.right.val).add(val);
+                }
+            }
+        }
+        return find_ans(map,start);
+    }
+}
