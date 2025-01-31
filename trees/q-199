@@ -35,3 +35,18 @@ class Solution {
         return result;
     }
 }
+
+#anotherapproach
+
+if (res.size() == level) {
+            // If equal, add the value of the
+            // current node to the result list
+            res.add(root.data);
+
+            // Recursively call the function for the
+            // right child with an increased level
+            recursionRight(root.right, level + 1, res);
+
+            // Recursively call the function for the
+            // left child with an increased level
+            recursionRight(root.left, level + 1, res);
