@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static int count = 0; // To track number of visited nodes
+    static TreeNode element = null; // To store the kth smallest element
+
+    public static void inorder(TreeNode root, int k) {
+        if (root == null || element != null) return; // Stop if kth element is found
+
+        inorder(root.left, k); // Left subtree (smaller elements)
+
+        count++; // Process the current node
+        if (count == k) {
+            element = root;
+            return;
+        }
+
+        inorder(root.right, k); // Right subtree (larger elements)
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        count = 0;
+        element = null;
+        inorder(root, k);
+        return element.val; // Return the kth smallest value
+    }
+}
