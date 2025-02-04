@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode() {}
+ * TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) {
+ * this.val = val;
+ * this.left = left;
+ * this.right = right;
+ * }
+ * }
+ */
+class Solution {
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.val < low) {
+            // The root value is less than the lower bound, so the trimmed tree will be in
+            // the right subtree
+            return trimBST(root.right, low, high);
+        } else if (root.val > high) {
+            // The root value is greater than the upper bound, so the trimmed tree will be
+            // in the left subtree
+            return trimBST(root.left, low, high);
+        } else {
+            // The root value is within the specified range, so we keep the root and
+            // recursively trim both subtrees
+            root.left = trimBST(root.left, low, high);
+            root.right = trimBST(root.right, low, high);
+            return root;
+        }
+    }
+}
