@@ -1,0 +1,37 @@
+class Solution {
+     static class Info {
+        int v, cost, stops;
+
+        public Info(int v, int cost, int stops) {
+            this.v = v;
+            this.cost = cost;
+            this.stops = stops;
+        }
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        Queue<Info> q = new LinkedList<>();
+        q.add(new Info(src, 0, 0));
+
+        while (!q.isEmpty()) {
+            Info curr = q.poll();
+            if (curr.stops > k) break;
+
+            for (int[] flight : flights) {
+                int u = flight[0];
+                int v = flight[1];
+                int wt = flight[2];
+
+                if (u == curr.v && curr.cost + wt < dist[v]) {
+                    dist[v] = curr.cost + wt;
+                    q.add(new Info(v, dist[v], curr.stops + 1));
+                }
+            }
+        }
+        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+    }
+}
