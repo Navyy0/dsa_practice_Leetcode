@@ -1,0 +1,49 @@
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        List<List<Integer>> graph = new ArrayList<>();
+
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        // Build the graph from adjacency matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (isConnected[i][j] == 1 && i != j) {
+                    graph.get(i).add(j);
+                }
+            }
+        }
+
+        boolean[] visited = new boolean[n];
+        int count = 0;
+
+        // BFS for each unvisited node
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                bfs(graph, visited, i);
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private void bfs(List<List<Integer>> graph, boolean[] visited, int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited[start] = true;
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            for (int neighbor : graph.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+    }
+}
