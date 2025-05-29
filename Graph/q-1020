@@ -1,0 +1,41 @@
+class Solution {
+    public int numEnclaves(int[][] grid) {
+       for(int i = 0; i < grid[0].length; i++){
+            if(grid[0][i] == 1)
+                DFS(grid, 0, i);
+            if(grid[grid.length - 1][i] == 1)
+                DFS(grid, grid.length - 1, i);
+        }
+        
+        for(int i = 0; i < grid.length; i++){
+            if(grid[i][0] == 1)
+                DFS(grid, i, 0);
+            if(grid[i][grid[0].length - 1] == 1)
+                DFS(grid, i, grid[0].length - 1);
+        }
+        int count = 0 ; 
+       for(int i =0; i <grid.length; i++){
+           for(int j =0; j <grid[0].length; j++){
+               if(grid[i][j] == 1)
+                  count ++ ;
+               
+           }
+       }
+       
+       
+        return count; 
+    }   
+
+    
+
+      private void DFS(int[][] grid, int i, int j){
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != 1)
+            return;
+        grid[i][j] = 8 ;
+        DFS(grid, i + 1, j);
+        DFS(grid, i - 1, j);
+        DFS(grid, i, j + 1);
+        DFS(grid, i, j - 1);
+        
+    }
+}
