@@ -1,0 +1,35 @@
+class Solution {
+    class Cell {
+        int r, c;
+        Cell(int r, int c) { this.r = r; this.c = c; }
+    }
+
+    public int[][] updateMatrix(int[][] mat) {
+        int rows = mat.length, cols = mat[0].length;
+        int[][] ans = new int[rows][cols];
+        Queue<Cell> q = new LinkedList<>();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (mat[i][j] == 0) {
+                    ans[i][j] = 0;
+                    q.add(new Cell(i, j));
+                } else {
+                    ans[i][j] = -1;
+                }
+            }
+        }
+
+        while (!q.isEmpty()) {
+            Cell curr = q.remove();
+            
+            // Check up
+            if (curr.r > 0 && ans[curr.r-1][curr.c] == -1) {
+                ans[curr.r-1][curr.c] = ans[curr.r][curr.c] + 1;
+                q.add(new Cell(curr.r-1, curr.c));
+            }
+            // Other directions similarly...
+        }
+        return ans;
+    }
+}
