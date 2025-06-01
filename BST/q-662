@@ -1,0 +1,58 @@
+import java.util.Deque;
+import java.util.LinkedList;
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Pair {
+    TreeNode node;
+    long position;
+    Pair(TreeNode node, long position) {
+        this.node = node;
+        this.position = position;
+    }
+}
+
+class Solution {
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        Deque<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, 0));
+        long maxWidth = 0;
+        
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            long firstPos = queue.peekFirst().position;
+            long lastPos = queue.peekLast().position;
+            maxWidth = Math.max(maxWidth, lastPos - firstPos + 1);
+            
+            for (int i = 0; i < levelSize; i++) {
+                Pair current = queue.poll();
+                TreeNode node = current.node;
+                long pos = current.position;
+                
+                if (node.left != null) {
+                    queue.offer(new Pair(node.left, 2 * pos + 1));
+                }
+                if (node.right != null) {
+                    queue.offer(new Pair(node.right, 2 * pos + 2));
+                }
+            }
+        }
+        
+        return (int) maxWidth;
+    }
+}
