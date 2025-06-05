@@ -1,0 +1,29 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        Queue<Integer> positives = new LinkedList<>();
+        Queue<Integer> negatives = new LinkedList<>();
+        
+        // Separate positives and negatives into queues
+        for (int num : nums) {
+            if (num > 0) {
+                positives.offer(num);
+            } else {
+                negatives.offer(num);
+            }
+        }
+        
+        // Rebuild the array by alternating between positives and negatives
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 0) {
+                nums[i] = positives.poll(); // Even index → positive
+            } else {
+                nums[i] = negatives.poll(); // Odd index → negative
+            }
+        }
+        
+        return nums;
+    }
+}
