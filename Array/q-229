@@ -1,0 +1,22 @@
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+    Map<Integer, Integer> frequencyMap = new HashMap<>();
+    int n = nums.length;
+    int threshold = n / 3;
+
+    // Step 1: Count frequencies
+    for (int num : nums) {
+        frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+    }
+
+    // Step 2: Check which elements meet the condition
+    for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+        if (entry.getValue() > threshold) {
+            result.add(entry.getKey());
+        }
+    }
+
+    return result;  
+    }
+}
