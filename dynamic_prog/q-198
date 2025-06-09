@@ -1,0 +1,26 @@
+class Solution {
+    public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        
+        int n = nums.length;
+        int[] dp = new int[n];
+        
+        // Base cases
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        
+        for (int i = 2; i < n; i++) {
+            // The maximum loot at house i is either:
+            // 1. Rob house i and add to the loot from house i-2
+            // 2. Skip house i and take the loot from house i-1
+            dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
+        }
+        
+        return dp[n - 1];
+    }
+}
