@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // Build adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int[] edge : prerequisites) {
+            int u = edge[0];
+            int v = edge[1];
+            adj.get(v).add(u); // v must be taken before u (v → u)
+        }
+        
+        int[] inDegree = new int[numCourses];
+        
+        // Compute in-degree for each node
+        for (int u = 0; u < numCourses; u++) {
+            for (int v : adj.get(u)) {
+                inDegree[v]++;
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        // Enqueue nodes with in-degree 0
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+        
+        int count = 0; // Count of nodes processed
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            count++;
+            
+            // Reduce in-degree of neighbors
+            for (int v : adj.get(u)) {
+                inDegree[v]--;
+                if (inDegree[v] == 0) {
+                    queue.add(v);
+                }
+            }
+        }
+        
+        // If count == numCourses, no cycle (can finish all courses)
+        return count == numCourses;
+    }
+}
